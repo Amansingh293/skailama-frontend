@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../Components/Button";
 import { NavBar } from "../Components/NavBar";
 
-export const HomePage = () => {
+const HomePage = () => {
   const [credentials, setCredentials] = useState({
     email: "",
     name: "",
@@ -218,3 +218,5 @@ export const HomePage = () => {
     </div>
   );
 };
+
+export default HomePage;
