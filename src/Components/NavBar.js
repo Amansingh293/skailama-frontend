@@ -21,7 +21,7 @@ export const NavBar = () => {
       </div>
       <div className="notification-setting">
         <img
-          src="images/settingsicon.svg"
+          src="images/icon.svg"
           alt="settings"
           style={{ height: "2.3rem", width: "2.3rem" }}
         />

@@ -1,11 +1,9 @@
-
-import axios from 'axios';
+import axios from "axios";
 
 export const instance = axios.create({
-    baseURL: "http://localhost:3003",
-    withcredentials : true,
-    headers : {
-        'content-type' : 'application/json',
-    }
-})
-
+  baseURL: "https://skailama-backend-pvwx.onrender.com",
+  withcredentials: true,
+  headers: {
+    "content-type": "application/json",
+  },
+});
