@@ -76,12 +76,8 @@ const HomePage = () => {
 
           <div className="homepage-middle-container">
             <h1
+            className="heading-homapage"
               style={{
-                fontWeight: "700",
-                fontSize: "3rem",
-                color: "#7E22CE",
-                margin: "0",
-                paddingBottom: "4px",
               }}
             >
               Create a New Project
@@ -89,6 +85,7 @@ const HomePage = () => {
             <img
               src="images/homepageicon.svg"
               alt="homepageicon"
+              className="hompage-image"
               style={{ height: "16rem", width: "24rem" }}
             />
             <p>
@@ -101,7 +98,7 @@ const HomePage = () => {
             <img
               src="images/createprojectbtn.svg"
               alt="createprojectbtn"
-              style={{ height: "4rem", cursor: "pointer" }}
+              style={{ height: "3rem", cursor: "pointer" }}
               onClick={() => {
                 setIsCreateProjectModalVisible(!isCreateProjectModalVisible);
               }}
