@@ -128,7 +128,7 @@ h5 {
 }
 
 .all-projects-main {
-  width: 100vw;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -286,7 +286,7 @@ tr:hover {
   width: 100%;
 }
 
-@media screen and (max-width: 500px) {
+@media only screen and (max-width: 700px) {
   .project-main-container {
     display: flex;
     justify-content: center;
@@ -306,6 +306,12 @@ tr:hover {
     background-color: #f3e8ff;
     position: relative;
     padding: 10px;
+  }
+
+  .all-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 4rem;
   }
 
   .right-portion-project {
