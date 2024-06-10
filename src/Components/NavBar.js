@@ -1,4 +1,5 @@
 import React from "react";
+import { IoMdSettings } from "react-icons/io";
 
 export const NavBar = () => {
   return (
@@ -20,11 +21,11 @@ export const NavBar = () => {
         </h1>
       </div>
       <div className="notification-setting">
-        <img
-          src="images/icon.svg"
+        <IoMdSettings
           alt="settings"
           style={{ height: "2.3rem", width: "2.3rem" }}
         />
+
         <img
           src="images/notificationsicon.svg"
           alt="notification"
