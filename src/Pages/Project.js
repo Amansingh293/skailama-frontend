@@ -125,6 +125,7 @@ const Project = () => {
   };
 
   const handleUploadDescription = async () => {
+    setLoader(true);
     try {
       const response = await addProjectDetails({ pId: id, ...fileDetails });
       setProjectData(response);
@@ -133,12 +134,12 @@ const Project = () => {
     } catch (error) {
       console.log(error.message);
     }
+    setLoader(false);
   };
 
   const handleTranscriptModalDescription = (fileId) => {
     const file = projectData.projectDetails.filter((obj) => obj._id === fileId);
     setTranscriptDescription({ id: fileId, description: file[0].description });
-    console.log(transcriptDescription);
   };
 
   const handleEditTranscriptInput = (e) => {
@@ -149,6 +150,7 @@ const Project = () => {
   };
 
   const handleSaveEditTranscript = async () => {
+    setLoader(true);
     try {
       const response = await saveEdittedFile(transcriptDescription);
       const fileIndex = projectData?.projectDetails?.findIndex(
@@ -159,6 +161,7 @@ const Project = () => {
 
       setProjectData({ ...projectData, projectDetails: updatedProjectDetails });
     } catch (error) {}
+    setLoader(false);
   };
 
   useEffect(() => {
@@ -166,774 +169,782 @@ const Project = () => {
   }, []);
 
   return (
-    <div className="project-main-container">
-      <div className="left-portion-project">
-        <div className="company-logo">
-          <img
-            src="images/logo.svg"
-            alt="icon"
-            style={{ height: "30px", width: "30px" }}
-          />
-          <h1
-            style={{
-              font: "Plus Jakarta Sans",
-              color: "#7E22CE",
-              fontWeight: "800",
-            }}
-          >
-            LAMA
-          </h1>
-        </div>
+    <>
+      {loader ? (
+        <Loader />
+      ) : (
+        <div className="project-main-container">
+          <div className="left-portion-project">
+            <div className="company-logo">
+              <img
+                src="images/logo.svg"
+                alt="icon"
+                style={{ height: "30px", width: "30px" }}
+              />
+              <h1
+                style={{
+                  font: "Plus Jakarta Sans",
+                  color: "#7E22CE",
+                  fontWeight: "800",
+                }}
+              >
+                LAMA
+              </h1>
+            </div>
 
-        <h3 style={{ color: "#49454F" }}>Podcast Uplaod Flow</h3>
+            <h3 style={{ color: "#49454F" }}>Podcast Uplaod Flow</h3>
 
-        <div
-          className="navigate-button"
-          onClick={() => setCurrentTab("projects")}
-          style={
-            currentTab === "projects"
-              ? { color: "white", backgroundColor: "#7E22CE" }
-              : { color: "black" }
-          }
-        >
-          <h4>Projects</h4>
-        </div>
-        <div
-          className="navigate-button"
-          onClick={() => setCurrentTab("widgetConfigurations")}
-          style={
-            currentTab === "widgetConfigurations"
-              ? { color: "white", backgroundColor: "#7E22CE" }
-              : { color: "black" }
-          }
-        >
-          <h4>Widget Configurations</h4>
-        </div>
-        <div className="navigate-button">
-          <h4>Deployment</h4>
-        </div>
-        <div className="navigate-button">
-          <h4> Pricing</h4>
-        </div>
-        <div
-          className="navigate-button"
-          style={
-            currentTab === "settings"
-              ? {
-                  color: "white",
-                  backgroundColor: "#7E22CE",
-                  position: "absolute",
-                  bottom: "10px",
-                  fontSize: "1.5rem",
-                  fontWeight: "600",
-                  width: "90%",
-                }
-              : {
-                  color: "black",
-                  position: "absolute",
-                  bottom: "10px",
-                  fontSize: "1.5rem",
-                  fontWeight: "600",
-                  width: "90%",
-                }
-          }
-          onClick={() => setCurrentTab("settings")}
-        >
-          <IoSettingsSharp style={{ marginRight: "5px" }} />
-          Settings
-        </div>
-      </div>
-
-      {loader && <Loader />}
-
-      <div className="right-portion-project">
-        {!viewEditTranscript && currentTab === "projects" && (
-          <>
-            <h2
-              style={{ color: "#7E22CE", fontWeight: "700", fontSize: "3rem" }}
-            >
-              Sample Project
-            </h2>
             <div
-              style={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                alignItems: "center",
-                width: "100%",
-                flexWrap: "wrap",
-                gap: "1rem",
-              }}
+              className="navigate-button"
+              onClick={() => setCurrentTab("projects")}
+              style={
+                currentTab === "projects"
+                  ? { color: "white", backgroundColor: "#7E22CE" }
+                  : { color: "black" }
+              }
             >
-              <Button
-                icon={
-                  <IoLogoYoutube style={{ color: "red", fontSize: "20px" }} />
-                }
-                onClick={() => setTranscriptSave(!transcriptSave)}
-                text={"upload video"}
-                style={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  boxShadow: "2px 2px 2px 2px #C8C8C8",
-                  background: "white",
-                  cursor: "pointer",
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  border: "1px",
-                }}
-              />
-              <Button
-                icon={
-                  <AiOutlineSpotify
-                    style={{ color: "green", fontSize: "20px" }}
-                  />
-                }
-                onClick={() => setTranscriptSave(!transcriptSave)}
-                text={"upload video"}
-                style={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  boxShadow: "2px 2px 2px 2px #C8C8C8",
-                  background: "white",
-                  cursor: "pointer",
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  border: "1px",
-                }}
-              />
-              <Button
-                icon={
-                  <IoLogoYoutube style={{ color: "red", fontSize: "20px" }} />
-                }
-                text={"upload video"}
-                onClick={() => setTranscriptSave(!transcriptSave)}
-                style={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  boxShadow: "2px 2px 2px 2px #C8C8C8",
-                  background: "white",
-                  cursor: "pointer",
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  border: "1px",
-                }}
-              />
-              <Button
-                icon={
-                  <IoLogoYoutube style={{ color: "red", fontSize: "20px" }} />
-                }
-                text={"upload video"}
-                onClick={() => setTranscriptSave(!transcriptSave)}
-                style={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  boxShadow: "2px 2px 2px 2px #C8C8C8",
-                  background: "white",
-                  cursor: "pointer",
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  border: "1px",
-                }}
-              />
+              <h4>Projects</h4>
             </div>
             <div
-              style={{
-                width: "100%",
-                borderRadius: "15px",
-                background: "#7E22CE",
-                height: "3rem",
-              }}
-            ></div>
-
-            <div className="table-container">
-              {projectData.length !== 0 && (
-                <table>
-                  <thead>
-                    <tr>
-                      <td>Name</td>
-                      <td>Upload Date & Time</td>
-                      <td>Status</td>
-                      <td>Actions</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {transcriptArray.length !== 0 &&
-                      transcriptArray.map((obj, i) => {
-                        return (
-                          <tr key={i}>
-                            <td>{obj.name}</td>
-                            <td>{formatTimestamp(obj.time)}</td>
-                            <td>Done</td>
-                            <td
-                              style={{
-                                display: "flex",
-                                gap: "10px",
-                                alignItems: "center",
-                              }}
-                            >
-                              <Button
-                                style={{
-                                  cursor: "pointer",
-                                  padding: "5px",
-                                  borderRadius: "10px",
-                                  color: "red",
-                                  backgroundColor: "white",
-                                  border: "1px solid",
-                                  boxShadow: "1px 1px 1px 1px gray",
-                                }}
-                                text={"edit"}
-                                onClick={() => {
-                                  setViewEditTranscript(!viewEditTranscript);
-                                  handleTranscriptModalDescription(obj._id);
-                                }}
-                              />
-                              <Button
-                                style={{
-                                  cursor: "pointer",
-                                  padding: "5px",
-                                  borderRadius: "10px",
-                                  color: "white",
-                                  backgroundColor: "red",
-                                  border: "1px solid",
-                                  boxShadow: "1px 1px 1px 1px gray",
-                                }}
-                                text={"Delete"}
-                                onClick={() => handleTranscriptDelete(obj._id)}
-                              />
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
-              )}
-            </div>
-          </>
-        )}
-
-        {viewEditTranscript && (
-          <>
-            <h2
-              style={{ color: "#7E22CE", fontWeight: "700", fontSize: "3rem" }}
+              className="navigate-button"
+              onClick={() => setCurrentTab("widgetConfigurations")}
+              style={
+                currentTab === "widgetConfigurations"
+                  ? { color: "white", backgroundColor: "#7E22CE" }
+                  : { color: "black" }
+              }
             >
-              Sample Project
-            </h2>
-            <div className="transcript-edit-modal">
-              <div className="edit-modal-first-section">
-                <h1 style={{ color: "#7E22CE" }}>Edit Transcript</h1>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "2rem",
-                  }}
-                >
-                  <Button
-                    style={{
-                      padding: "10px",
-                      borderRadius: "10px",
-                      border: "1px solid",
-                      backgroundColor: "black",
-                      color: "white",
-                      boxShadow: "1px 1px 1px 1px gray",
-                      cursor: "pointer",
-                    }}
-                    text={!textEditable ? "Enable Edit" : "Disable Edit"}
-                    onClick={() => setTextEditable(!textEditable)}
-                  />
-                  <Button
-                    style={{
-                      border: "2px solid red",
-                      color: "red",
-                      padding: "10px",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                      backgroundColor: "white",
-                      boxShadow: "1px 1px 1px 1px gray",
-                    }}
-                    text={"Discard"}
-                    onClick={() => setViewEditTranscript(!viewEditTranscript)}
-                  />
-                  <Button
-                    style={{
-                      backgroundColor: "#211935",
-                      color: "white",
-                      padding: "10px",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                      boxShadow: "1px 1px 1px 1px gray",
-                    }}
-                    text={"Save & exit"}
-                    onClick={() => {
-                      setViewEditTranscript(!viewEditTranscript);
-                      handleSaveEditTranscript();
-                    }}
-                  />
-                </div>{" "}
-              </div>
-              <textarea
-                className="transcript-edit-input-div"
-                value={transcriptDescription.description}
-                onChange={(e) => {
-                  textEditable && handleEditTranscriptInput(e);
-                }}
-              ></textarea>
+              <h4>Widget Configurations</h4>
             </div>
-          </>
-        )}
-
-        {!viewEditTranscript && currentTab === "widgetConfigurations" && (
-          <div className="widget-div">
-            <h1 style={{ color: "#7E22CE", fontSize: "3rem" }}>
-              Configuration
-            </h1>
-            <div className="widget-select-div">
-              <h4
-                style={
-                  currentWidgetOpen === "general"
-                    ? { color: "#7E22CE", cursor: "pointer" }
-                    : { cursor: "pointer" }
-                }
-                onClick={() => setCurrentWidgetOpen("general")}
-              >
-                General
-              </h4>
-              <h4
-                style={
-                  currentWidgetOpen === "display"
-                    ? { color: "#7E22CE", cursor: "pointer" }
-                    : { cursor: "pointer" }
-                }
-                onClick={() => setCurrentWidgetOpen("display")}
-              >
-                Display
-              </h4>
+            <div className="navigate-button">
+              <h4>Deployment</h4>
             </div>
+            <div className="navigate-button">
+              <h4> Pricing</h4>
+            </div>
+            <div
+              className="navigate-button settings-navigate"
+              style={
+                currentTab === "settings"
+                  ? {
+                      color: "white",
+                      backgroundColor: "#7E22CE",
+                    }
+                  : {
+                      color: "black",
+                    }
+              }
+              onClick={() => setCurrentTab("settings")}
+            >
+              <IoSettingsSharp style={{ marginRight: "5px" }} />
+              Settings
+            </div>
+          </div>
 
-            {currentWidgetOpen === "general" && (
-              <div className="general-div">
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "self-start",
-                    width: "100%",
-                    gap: "1rem",
-                  }}
-                >
-                  <label
-                    htmlFor="chatbot"
-                    style={{ fontSize: "1.2rem", fontWeight: "600" }}
-                  >
-                    Chatbot Name
-                  </label>
-                  <input
-                    name="chatbot"
-                    type="text"
-                    style={{
-                      border: "1px solid gray",
-                      borderRadius: "10px",
-                      height: "2rem",
-                      width: "100%",
-                    }}
-                    value={widgetConfigurationObject.general.chatbot}
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        general: {
-                          ...widgetConfigurationObject.general,
-                          ["chatbot"]: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "self-start",
-                    width: "100%",
-                    gap: "1rem",
-                  }}
-                >
-                  <label
-                    htmlFor="chatbot"
-                    style={{ fontSize: "1.2rem", fontWeight: "600" }}
-                  >
-                    welcome Message
-                  </label>
-                  <input
-                    name="chatbot"
-                    type="text"
-                    style={{
-                      border: "1px solid gray",
-                      borderRadius: "10px",
-                      height: "2rem",
-                      width: "100%",
-                    }}
-                    value={widgetConfigurationObject.general.welcomeMessage}
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        general: {
-                          ...widgetConfigurationObject.general,
-                          ["welcomeMessage"]: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "self-start",
-                    width: "100%",
-                    gap: "1rem",
-                  }}
-                >
-                  <label
-                    htmlFor="chatbot"
-                    style={{ fontSize: "1.2rem", fontWeight: "600" }}
-                  >
-                    Input PlaceHolder
-                  </label>
-                  <input
-                    name="chatbot"
-                    type="text"
-                    style={{
-                      border: "1px solid gray",
-                      borderRadius: "10px",
-                      height: "2rem",
-                      width: "100%",
-                    }}
-                    value={widgetConfigurationObject.general.inputMessage}
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        general: {
-                          ...widgetConfigurationObject.general,
-                          ["inputPlaceholder"]: e.target.value,
-                        },
-                      });
-                    }}
-                  />
-                </div>
-              </div>
-            )}
+          {loader && <Loader />}
 
-            {currentWidgetOpen === "display" && (
-              <div className="display-div">
-                <div className="first-section-display">
-                  <InputField
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        display: {
-                          ...widgetConfigurationObject.display,
-                          ["primaryColor"]: e.target.value,
-                        },
-                      });
-                    }}
-                    value={widgetConfigurationObject.display.primaryColor}
-                    text={"Position On Screen"}
-                    type={"text"}
-                    name={"primaryColor"}
-                    color={widgetConfigurationObject.display.primaryColor}
-                  />
-                  <InputField
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        display: {
-                          ...widgetConfigurationObject.display,
-                          ["fontColor"]: e.target.value,
-                        },
-                      });
-                    }}
-                    value={widgetConfigurationObject.display.fontColor}
-                    text={"Font Color"}
-                    type={"text"}
-                    name={"fontColor"}
-                    color={widgetConfigurationObject.display.fontColor}
-                  />
-                  <InputField
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        display: {
-                          ...widgetConfigurationObject.display,
-                          ["fontSize"]: e.target.value,
-                        },
-                      });
-                    }}
-                    value={widgetConfigurationObject.display.fontSize}
-                    text={"Font Size (in px)"}
-                    type={"number"}
-                    name={"fontSize"}
-                  />
-                  <InputField
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        display: {
-                          ...widgetConfigurationObject.display,
-                          ["primaryColor"]: e.target.value,
-                        },
-                      });
-                    }}
-                    value={widgetConfigurationObject.display.chatHeight}
-                    text={"Chat Height"}
-                    type={"text"}
-                    name={"chatHeight"}
-                  />
-                </div>
-                <h2 style={{ marginTop: "1rem", marginBottom: "1rem" }}>
-                  Chat Icon
+          <div className="right-portion-project">
+            {!viewEditTranscript && currentTab === "projects" && (
+              <>
+                <h2
+                  style={{
+                    color: "#7E22CE",
+                    fontWeight: "700",
+                    fontSize: "3rem",
+                  }}
+                >
+                  Sample Project
                 </h2>
-                <div className="second-section-display">
-                  <InputField
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        display: {
-                          ...widgetConfigurationObject.display,
-                          ["chatIcon"]: e.target.value,
-                        },
-                      });
-                    }}
-                    value={widgetConfigurationObject.display.chatIcon}
-                    type={"number"}
-                    name={"chatIconSize"}
-                    text={"Chat Icon Size"}
-                  />
-                  <div
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                    width: "100%",
+                    flexWrap: "wrap",
+                    gap: "1rem",
+                  }}
+                >
+                  <Button
+                    icon={
+                      <IoLogoYoutube
+                        style={{ color: "red", fontSize: "20px" }}
+                      />
+                    }
+                    onClick={() => setTranscriptSave(!transcriptSave)}
+                    text={"upload video"}
                     style={{
+                      padding: "10px",
+                      borderRadius: "10px",
+                      boxShadow: "2px 2px 2px 2px #C8C8C8",
+                      background: "white",
+                      cursor: "pointer",
                       display: "flex",
-                      flexDirection: "column",
-                      alignItems: "self-start",
-                      width: "100%",
-                      gap: "1rem",
-                    }}
-                  >
-                    <label
-                      htmlFor="positionOnScreen"
-                      style={{ fontSize: "1.2rem", fontWeight: "600" }}
-                    >
-                      position On Screen
-                    </label>
-                    <select
-                      style={{
-                        height: "2rem",
-                        width: "100%",
-                        borderRadius: "10px",
-                        backgroundColor: "white",
-                      }}
-                      value={widgetConfigurationObject.display.positionOnScreen}
-                      onChange={(e) => {
-                        setWidgetConfigurationObject({
-                          ...widgetConfigurationObject,
-                          display: {
-                            ...widgetConfigurationObject.display,
-                            ["positionOnScreen"]: e.target.value,
-                          },
-                        });
-                      }}
-                      name="positionOnScreen"
-                    >
-                      <option value="top-left">Top Left</option>
-                      <option value="top-right">Top Right</option>
-                      <option value="bottom-left">Bottom Left</option>
-                      <option value="bottom-right">Bottom Right</option>
-                      <option value="center">Center</option>
-                      <option value="custom">Custom</option>
-                    </select>{" "}
-                  </div>
-                  {/* <InputField
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        display: {
-                          ...widgetConfigurationObject.display,
-                          ["positionOnScreen"]: e.target.value,
-                        },
-                      });
-                    }}
-                    value={widgetConfigurationObject.display.positionOnScreen}
-                    text={"Position On Screen"}
-                    type={"text"}
-                    name={"positionOnScreen"}
-                  /> */}
-                  <InputField
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        display: {
-                          ...widgetConfigurationObject.display,
-                          ["distanceFromBottom"]: e.target.value,
-                        },
-                      });
-                    }}
-                    value={widgetConfigurationObject.display.distanceFromBottom}
-                    text={"Distance From Bottom"}
-                    type={"number"}
-                    name={"distanceFromBottom"}
-                  />
-                  <InputField
-                    onChange={(e) => {
-                      setWidgetConfigurationObject({
-                        ...widgetConfigurationObject,
-                        display: {
-                          ...widgetConfigurationObject.display,
-                          ["horizontalDistance"]: e.target.value,
-                        },
-                      });
-                    }}
-                    value={widgetConfigurationObject.display.horizontalDistance}
-                    text={"Horizontal Distance"}
-                    type={"number"}
-                    name={"horizontalDistance"}
-                  />
-                  <div
-                    style={{
-                      display: "flex",
+                      gap: 2,
                       alignItems: "center",
-                      justifyContent: "center",
+                      border: "1px",
                     }}
-                  >
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUplaod}
-                      style={{ fontSize: "1rem" }}
-                    />
-                    <img
-                      src={widgetConfigurationObject.display.botIcon}
-                      alt="icon"
-                      style={{
-                        height: "5rem",
-                        width: "5rem",
-                        borderRadius: "50%",
-                      }}
-                    />
-                  </div>
-                  <div
+                  />
+                  <Button
+                    icon={
+                      <AiOutlineSpotify
+                        style={{ color: "green", fontSize: "20px" }}
+                      />
+                    }
+                    onClick={() => setTranscriptSave(!transcriptSave)}
+                    text={"upload video"}
                     style={{
+                      padding: "10px",
+                      borderRadius: "10px",
+                      boxShadow: "2px 2px 2px 2px #C8C8C8",
+                      background: "white",
+                      cursor: "pointer",
                       display: "flex",
-                      justifyContent: "center",
+                      gap: 2,
                       alignItems: "center",
+                      border: "1px",
                     }}
-                  >
-                    <Button
-                      style={{
-                        padding: "10px",
-                        borderRadius: "10px",
-                        backgroundColor: "white",
-                        width: "70%",
-                        height: "3rem",
-                        cursor: "pointer",
-                        backgroundColor: "#2c3e50",
-                        color: "white",
-                        fontSize: "1.2rem",
-                        textAlign: "center",
-                      }}
-                      text={"Save"}
-                      onClick={handleSaveProject}
-                    />
-                  </div>
+                  />
+                  <Button
+                    icon={
+                      <IoLogoYoutube
+                        style={{ color: "red", fontSize: "20px" }}
+                      />
+                    }
+                    text={"upload video"}
+                    onClick={() => setTranscriptSave(!transcriptSave)}
+                    style={{
+                      padding: "10px",
+                      borderRadius: "10px",
+                      boxShadow: "2px 2px 2px 2px #C8C8C8",
+                      background: "white",
+                      cursor: "pointer",
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "center",
+                      border: "1px",
+                    }}
+                  />
+                  <Button
+                    icon={
+                      <IoLogoYoutube
+                        style={{ color: "red", fontSize: "20px" }}
+                      />
+                    }
+                    text={"upload video"}
+                    onClick={() => setTranscriptSave(!transcriptSave)}
+                    style={{
+                      padding: "10px",
+                      borderRadius: "10px",
+                      boxShadow: "2px 2px 2px 2px #C8C8C8",
+                      background: "white",
+                      cursor: "pointer",
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "center",
+                      border: "1px",
+                    }}
+                  />
                 </div>
+                <div
+                  style={{
+                    width: "100%",
+                    borderRadius: "15px",
+                    background: "#7E22CE",
+                    height: "3rem",
+                  }}
+                ></div>
+
+                <div className="table-container">
+                  {projectData.length !== 0 && (
+                    <table>
+                      <thead>
+                        <tr>
+                          <td>Name</td>
+                          <td>Upload Date & Time</td>
+                          <td>Status</td>
+                          <td>Actions</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {transcriptArray.length !== 0 &&
+                          transcriptArray.map((obj, i) => {
+                            return (
+                              <tr key={i}>
+                                <td>{obj.name}</td>
+                                <td>{formatTimestamp(obj.time)}</td>
+                                <td>Done</td>
+                                <td
+                                  style={{
+                                    display: "flex",
+                                    gap: "10px",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Button
+                                    style={{
+                                      cursor: "pointer",
+                                      padding: "5px",
+                                      borderRadius: "10px",
+                                      color: "red",
+                                      backgroundColor: "white",
+                                      border: "1px solid",
+                                      boxShadow: "1px 1px 1px 1px gray",
+                                    }}
+                                    text={"edit"}
+                                    onClick={() => {
+                                      setViewEditTranscript(
+                                        !viewEditTranscript
+                                      );
+                                      handleTranscriptModalDescription(obj._id);
+                                    }}
+                                  />
+                                  <Button
+                                    style={{
+                                      cursor: "pointer",
+                                      padding: "5px",
+                                      borderRadius: "10px",
+                                      color: "white",
+                                      backgroundColor: "red",
+                                      border: "1px solid",
+                                      boxShadow: "1px 1px 1px 1px gray",
+                                    }}
+                                    text={"Delete"}
+                                    onClick={() =>
+                                      handleTranscriptDelete(obj._id)
+                                    }
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              </>
+            )}
+
+            {viewEditTranscript && (
+              <>
+                <h2
+                  style={{
+                    color: "#7E22CE",
+                    fontWeight: "700",
+                    fontSize: "3rem",
+                  }}
+                >
+                  Sample Project
+                </h2>
+                <div className="transcript-edit-modal">
+                  <div className="edit-modal-first-section">
+                    <h1 style={{ color: "#7E22CE" }}>Edit Transcript</h1>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "2rem",
+                      }}
+                    >
+                      <Button
+                        style={{
+                          padding: "10px",
+                          borderRadius: "10px",
+                          border: "1px solid",
+                          backgroundColor: "black",
+                          color: "white",
+                          boxShadow: "1px 1px 1px 1px gray",
+                          cursor: "pointer",
+                        }}
+                        text={!textEditable ? "Enable Edit" : "Disable Edit"}
+                        onClick={() => setTextEditable(!textEditable)}
+                      />
+                      <Button
+                        style={{
+                          border: "2px solid red",
+                          color: "red",
+                          padding: "10px",
+                          borderRadius: "10px",
+                          cursor: "pointer",
+                          backgroundColor: "white",
+                          boxShadow: "1px 1px 1px 1px gray",
+                        }}
+                        text={"Discard"}
+                        onClick={() =>
+                          setViewEditTranscript(!viewEditTranscript)
+                        }
+                      />
+                      <Button
+                        style={{
+                          backgroundColor: "#211935",
+                          color: "white",
+                          padding: "10px",
+                          borderRadius: "10px",
+                          cursor: "pointer",
+                          boxShadow: "1px 1px 1px 1px gray",
+                        }}
+                        text={"Save & exit"}
+                        onClick={() => {
+                          setViewEditTranscript(!viewEditTranscript);
+                          handleSaveEditTranscript();
+                        }}
+                      />
+                    </div>{" "}
+                  </div>
+                  <textarea
+                    className="transcript-edit-input-div"
+                    value={transcriptDescription.description}
+                    onChange={(e) => {
+                      textEditable && handleEditTranscriptInput(e);
+                    }}
+                  ></textarea>
+                </div>
+              </>
+            )}
+
+            {!viewEditTranscript && currentTab === "widgetConfigurations" && (
+              <div className="widget-div">
+                <h1 style={{ color: "#7E22CE", fontSize: "3rem" }}>
+                  Configuration
+                </h1>
+                <div className="widget-select-div">
+                  <h4
+                    style={
+                      currentWidgetOpen === "general"
+                        ? { color: "#7E22CE", cursor: "pointer" }
+                        : { cursor: "pointer" }
+                    }
+                    onClick={() => setCurrentWidgetOpen("general")}
+                  >
+                    General
+                  </h4>
+                  <h4
+                    style={
+                      currentWidgetOpen === "display"
+                        ? { color: "#7E22CE", cursor: "pointer" }
+                        : { cursor: "pointer" }
+                    }
+                    onClick={() => setCurrentWidgetOpen("display")}
+                  >
+                    Display
+                  </h4>
+                </div>
+
+                {currentWidgetOpen === "general" && (
+                  <div className="general-div">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "self-start",
+                        width: "100%",
+                        gap: "1rem",
+                      }}
+                    >
+                      <label
+                        htmlFor="chatbot"
+                        style={{ fontSize: "1.2rem", fontWeight: "600" }}
+                      >
+                        Chatbot Name
+                      </label>
+                      <input
+                        name="chatbot"
+                        type="text"
+                        style={{
+                          border: "1px solid gray",
+                          borderRadius: "10px",
+                          height: "2rem",
+                          width: "100%",
+                        }}
+                        value={widgetConfigurationObject.general.chatbot}
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            general: {
+                              ...widgetConfigurationObject.general,
+                              ["chatbot"]: e.target.value,
+                            },
+                          });
+                        }}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "self-start",
+                        width: "100%",
+                        gap: "1rem",
+                      }}
+                    >
+                      <label
+                        htmlFor="chatbot"
+                        style={{ fontSize: "1.2rem", fontWeight: "600" }}
+                      >
+                        welcome Message
+                      </label>
+                      <input
+                        name="chatbot"
+                        type="text"
+                        style={{
+                          border: "1px solid gray",
+                          borderRadius: "10px",
+                          height: "2rem",
+                          width: "100%",
+                        }}
+                        value={widgetConfigurationObject.general.welcomeMessage}
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            general: {
+                              ...widgetConfigurationObject.general,
+                              ["welcomeMessage"]: e.target.value,
+                            },
+                          });
+                        }}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "self-start",
+                        width: "100%",
+                        gap: "1rem",
+                      }}
+                    >
+                      <label
+                        htmlFor="chatbot"
+                        style={{ fontSize: "1.2rem", fontWeight: "600" }}
+                      >
+                        Input PlaceHolder
+                      </label>
+                      <input
+                        name="chatbot"
+                        type="text"
+                        style={{
+                          border: "1px solid gray",
+                          borderRadius: "10px",
+                          height: "2rem",
+                          width: "100%",
+                        }}
+                        value={widgetConfigurationObject.general.inputMessage}
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            general: {
+                              ...widgetConfigurationObject.general,
+                              ["inputPlaceholder"]: e.target.value,
+                            },
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {currentWidgetOpen === "display" && (
+                  <div className="display-div">
+                    <div className="first-section-display">
+                      <InputField
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            display: {
+                              ...widgetConfigurationObject.display,
+                              ["primaryColor"]: e.target.value,
+                            },
+                          });
+                        }}
+                        value={widgetConfigurationObject.display.primaryColor}
+                        text={"Position On Screen"}
+                        type={"text"}
+                        name={"primaryColor"}
+                        color={widgetConfigurationObject.display.primaryColor}
+                      />
+                      <InputField
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            display: {
+                              ...widgetConfigurationObject.display,
+                              ["fontColor"]: e.target.value,
+                            },
+                          });
+                        }}
+                        value={widgetConfigurationObject.display.fontColor}
+                        text={"Font Color"}
+                        type={"text"}
+                        name={"fontColor"}
+                        color={widgetConfigurationObject.display.fontColor}
+                      />
+                      <InputField
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            display: {
+                              ...widgetConfigurationObject.display,
+                              ["fontSize"]: e.target.value,
+                            },
+                          });
+                        }}
+                        value={widgetConfigurationObject.display.fontSize}
+                        text={"Font Size (in px)"}
+                        type={"number"}
+                        name={"fontSize"}
+                      />
+                      <InputField
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            display: {
+                              ...widgetConfigurationObject.display,
+                              ["primaryColor"]: e.target.value,
+                            },
+                          });
+                        }}
+                        value={widgetConfigurationObject.display.chatHeight}
+                        text={"Chat Height"}
+                        type={"text"}
+                        name={"chatHeight"}
+                      />
+                    </div>
+                    <h2 style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+                      Chat Icon
+                    </h2>
+                    <div className="second-section-display">
+                      <InputField
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            display: {
+                              ...widgetConfigurationObject.display,
+                              ["chatIcon"]: e.target.value,
+                            },
+                          });
+                        }}
+                        value={widgetConfigurationObject.display.chatIcon}
+                        type={"number"}
+                        name={"chatIconSize"}
+                        text={"Chat Icon Size"}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "self-start",
+                          width: "100%",
+                          gap: "1rem",
+                        }}
+                      >
+                        <label
+                          htmlFor="positionOnScreen"
+                          style={{ fontSize: "1.2rem", fontWeight: "600" }}
+                        >
+                          position On Screen
+                        </label>
+                        <select
+                          style={{
+                            height: "2rem",
+                            width: "100%",
+                            borderRadius: "10px",
+                            backgroundColor: "white",
+                          }}
+                          value={
+                            widgetConfigurationObject.display.positionOnScreen
+                          }
+                          onChange={(e) => {
+                            setWidgetConfigurationObject({
+                              ...widgetConfigurationObject,
+                              display: {
+                                ...widgetConfigurationObject.display,
+                                ["positionOnScreen"]: e.target.value,
+                              },
+                            });
+                          }}
+                          name="positionOnScreen"
+                        >
+                          <option value="top-left">Top Left</option>
+                          <option value="top-right">Top Right</option>
+                          <option value="bottom-left">Bottom Left</option>
+                          <option value="bottom-right">Bottom Right</option>
+                          <option value="center">Center</option>
+                          <option value="custom">Custom</option>
+                        </select>{" "}
+                      </div>
+
+                      <InputField
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            display: {
+                              ...widgetConfigurationObject.display,
+                              ["distanceFromBottom"]: e.target.value,
+                            },
+                          });
+                        }}
+                        value={
+                          widgetConfigurationObject.display.distanceFromBottom
+                        }
+                        text={"Distance From Bottom"}
+                        type={"number"}
+                        name={"distanceFromBottom"}
+                      />
+                      <InputField
+                        onChange={(e) => {
+                          setWidgetConfigurationObject({
+                            ...widgetConfigurationObject,
+                            display: {
+                              ...widgetConfigurationObject.display,
+                              ["horizontalDistance"]: e.target.value,
+                            },
+                          });
+                        }}
+                        value={
+                          widgetConfigurationObject.display.horizontalDistance
+                        }
+                        text={"Horizontal Distance"}
+                        type={"number"}
+                        name={"horizontalDistance"}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUplaod}
+                          style={{ fontSize: "1rem" }}
+                        />
+                        <img
+                          src={widgetConfigurationObject.display.botIcon}
+                          alt="icon"
+                          style={{
+                            height: "5rem",
+                            width: "5rem",
+                            borderRadius: "50%",
+                          }}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Button
+                          style={{
+                            padding: "10px",
+                            borderRadius: "10px",
+                            backgroundColor: "white",
+                            width: "70%",
+                            height: "3rem",
+                            cursor: "pointer",
+                            backgroundColor: "#2c3e50",
+                            color: "white",
+                            fontSize: "1.2rem",
+                            textAlign: "center",
+                          }}
+                          text={"Save"}
+                          onClick={handleSaveProject}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
-          </div>
-        )}
 
-        {!viewEditTranscript && currentTab === "settings" && <Settings />}
-      </div>
-      {transcriptSave && (
-        <>
-          <div className="modal"></div>
-          <div className="modal-container">
-            <div>Name</div>
-            <input
-              type="text"
-              style={{
-                width: "100%",
-                height: "3rem",
-                borderRadius: "10px",
-                boxShadow: "1px 1px 1px 1px gray",
-                border: "1px",
-              }}
-              onChange={(e) => {
-                setFileDetails({
-                  ...fileDetails,
-                  ["name"]: e.target.value,
-                });
-              }}
-            />
-            <div>Description</div>
-            <textarea
-              type="text"
-              style={{
-                width: "100%",
-                height: "2rem",
-                borderRadius: "10px",
-                borderColor: "black",
-                resize: "none",
-                height: "7rem",
-              }}
-              onChange={(e) => {
-                setFileDetails({
-                  ...fileDetails,
-                  ["description"]: e.target.value,
-                });
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-                width: "100%",
-                gap: "1rem",
-              }}
-            >
-              <Button
-                style={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  border: "none",
-                  boxShadow: "2px 2px 2px 2px #C8C8C8",
-                  cursor: "pointer",
-                }}
-                text={"cancel"}
-                onClick={() => setTranscriptSave(!transcriptSave)}
-              />
-              <Button
-                style={{
-                  padding: "10px",
-                  background: "#211935",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "10px",
-                  boxShadow: "2px 2px 2px 2px #C8C8C8",
-                  cursor: "pointer",
-                }}
-                text={"Save"}
-                onClick={() => {
-                  setTranscriptSave(!transcriptSave);
-                  handleUploadDescription();
-                }}
-              />
-            </div>
+            {!viewEditTranscript && currentTab === "settings" && <Settings />}
           </div>
-        </>
+          {transcriptSave && (
+            <>
+              <div className="modal"></div>
+              <div className="modal-container">
+                <div>Name</div>
+                <input
+                  type="text"
+                  style={{
+                    width: "100%",
+                    height: "3rem",
+                    borderRadius: "10px",
+                    boxShadow: "1px 1px 1px 1px gray",
+                    border: "1px",
+                  }}
+                  onChange={(e) => {
+                    setFileDetails({
+                      ...fileDetails,
+                      ["name"]: e.target.value,
+                    });
+                  }}
+                />
+                <div>Description</div>
+                <textarea
+                  type="text"
+                  style={{
+                    width: "100%",
+                    height: "2rem",
+                    borderRadius: "10px",
+                    borderColor: "black",
+                    resize: "none",
+                    height: "7rem",
+                  }}
+                  onChange={(e) => {
+                    setFileDetails({
+                      ...fileDetails,
+                      ["description"]: e.target.value,
+                    });
+                  }}
+                />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    width: "100%",
+                    gap: "1rem",
+                  }}
+                >
+                  <Button
+                    style={{
+                      padding: "10px",
+                      borderRadius: "10px",
+                      border: "none",
+                      boxShadow: "2px 2px 2px 2px #C8C8C8",
+                      cursor: "pointer",
+                    }}
+                    text={"cancel"}
+                    onClick={() => setTranscriptSave(!transcriptSave)}
+                  />
+                  <Button
+                    style={{
+                      padding: "10px",
+                      background: "#211935",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "10px",
+                      boxShadow: "2px 2px 2px 2px #C8C8C8",
+                      cursor: "pointer",
+                    }}
+                    text={"Save"}
+                    onClick={() => {
+                      setTranscriptSave(!transcriptSave);
+                      handleUploadDescription();
+                    }}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

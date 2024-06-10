@@ -1,24 +1,9 @@
 import React from "react";
 
-const ProjectCard = ({ data , onClick }) => {
+const ProjectCard = ({ data, onClick }) => {
   return (
     <div className="project-card-main" onClick={onClick}>
-      <div
-        style={{
-          height: "100%",
-          width: "8rem",
-          borderRadius: "10px",
-          backgroundColor: "#7E22CE",
-          display: "flex",
-          fontSize: "5rem",
-          justifyContent: "center",
-          alignItems: "center",
-          color: "white",
-          fontWeight: "700",
-        }}
-      >
-        SP
-      </div>
+      <div className="project-card-image">SP</div>
       <div
         style={{
           display: "flex",
