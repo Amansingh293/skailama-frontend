@@ -57,6 +57,7 @@ const HomePage = () => {
       setIsModalVisible(false);
       await createUser(credentials);
       localStorage.setItem("email", credentials.email);
+      localStorage.setItem("username", credentials.userName);
       const response = await getAllProjects({
         email: localStorage.getItem("email"),
       });

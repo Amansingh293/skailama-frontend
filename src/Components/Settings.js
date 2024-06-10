@@ -21,22 +21,22 @@ const Settings = ({ save }) => {
   return (
     <div className="settings-container">
       <h1 style={{ color: "#7E22CE" }}>Account Settings</h1>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          width: "100%",
-          gap: "1rem",
-        }}
-      >
+      <div className="settings-div">
         <img
           src="images/settingicon.svg"
           alt="icon"
           style={{ height: "10rem", width: "10rem", borderRadius: "50%" }}
         />
-        <InputField name={"userName"} type={"text"} value={""} />
-        <InputField />
+        <InputField
+          name={"userName"}
+          type={"text"}
+          value={localStorage.getItem("username")}
+        />
+        <InputField
+          name={"email"}
+          type={"text"}
+          value={localStorage.getItem("email")}
+        />
       </div>
     </div>
   );
